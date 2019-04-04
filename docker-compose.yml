@@ -1,19 +1,19 @@
 version: "2"
 
 services:
-  # brocker
-  redis:
-    image: redis:3.2.6
-    container_name: redis
+  #generate data
+  generator:
+    image: ianyav1996cesuser/flask_generate:latest
+    container_name: generator
     ports:
-      - 6379:6379
-    volumes:
-      - redis-data:/data
+      - 5001:5001
     networks:
       - logging
+    links:
+      - elk
   # index, search & agregation
   elasticsearch:
-    image: elasticsearch:5.1.2
+    image: elasticsearch:latest
     container_name: elastic
     environment:
       - ES_JAVA_OPTS=-Xms1g -Xmx1g
@@ -27,7 +27,7 @@ services:
       - logging
   # UI
   kibana:
-    image: kibana:5.1.2
+    image: kibana:latest
     container_name: kibana
     ports:
       - 5601:5601
@@ -39,7 +39,7 @@ services:
       - elasticsearch
   # indexer
   logstash:
-    image: logstash:5.1.2
+    image: logstash:latest
     container_name: logstash
     command: logstash -f /config/
     environment:
@@ -50,7 +50,6 @@ services:
       - logging
     depends_on:
       - elasticsearch
-      - redis
 
 volumes:
   es-data:
