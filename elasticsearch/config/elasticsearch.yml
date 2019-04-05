@@ -1,6 +1,6 @@
+cluster.name: cerec-demo-cluster
+node.name: crec-demo-node
+path.data: /var/lib/elasticsearch
+path.logs: /var/log/elasticsearch
 network.host: localhost
-
-discovery.zen.minimum_master_nodes: 1
-
-bootstrap.seccomp: false
-
+http.port: 9200
